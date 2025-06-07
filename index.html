@@ -1,4 +1,500 @@
-<!DOCTYPE html>
+React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "使用薬品（1行に1つずつ）"),
+                        React.createElement('textarea', {
+                          value: Array.isArray(newRecord.products) ? newRecord.products.join('\n') : '',
+                          onChange: (e) => setNewRecord({...newRecord, products: e.target.value.split('\n')}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-24 touch-manipulation resize-none ios-input",
+                          placeholder: "ロレアル カラー剤\nトリートメント"
+                        })
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術メモ"),
+                        React.createElement('textarea', {
+                          value: newRecord.notes,
+                          onChange: (e) => setNewRecord({...newRecord, notes: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-32 touch-manipulation resize-none ios-input",
+                          placeholder: "お客様の要望、施術内容の詳細等"
+                        })
+                      )
+                    ),
+
+                    React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mt-6" },
+                      React.createElement('button', {
+                        onClick: () => closeModal('editing'),
+                        className: "flex-1 py-4 text-base border border-gray-300 rounded-lg hover:bg-gray-50 touch-manipulation min-h-[48px]"
+                      }, "キャンセル"),
+                      React.createElement('button', {
+                        onClick: addNewRecord,
+                        disabled: !newRecord.service || !newRecord.price,
+                        className: "flex-1 bg-blue-600 text-white py-4 text-base rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 touch-manipulation min-h-[48px] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      },
+                        React.createElement(Save, { size: 20 }),
+                        "保存"
+                      )
+                    )
+                  )
+                ),
+
+                // 新規お客様追加モーダル
+                isAddingCustomer && React.createElement('div', { 
+                  className: "fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50",
+                  onClick: (e) => e.target === e.currentTarget && closeModal('addingCustomer')
+                },
+                  React.createElement('div', { className: "bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl my-4 shadow-2xl modal-content" },
+                    React.createElement('div', { className: "flex items-center justify-between mb-6" },
+                      React.createElement('h2', { className: "text-lg md:text-xl font-bold" }, "新規お客様登録"),
+                      React.createElement('button', {
+                        onClick: () => closeModal('addingCustomer'),
+                        className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px]"
+                      }, React.createElement(X, { size: 24 }))
+                    ),
+
+                    React.createElement('div', { className: "space-y-4" },
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "お名前 *"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: newCustomer.name,
+                          onChange: (e) => setNewCustomer({...newCustomer, name: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "田中 花子"
+                        })
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "お名前（ひらがな） *"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: newCustomer.nameKana,
+                          onChange: (e) => setNewCustomer({...newCustomer, nameKana: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "たなか はなこ"
+                        })
+                      ),
+
+                      React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 gap-4" },
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "電話番号 *"),
+                          React.createElement('input', {
+                            type: "tel",
+                            value: newCustomer.phone,
+                            onChange: (e) => handlePhoneChange(e.target.value, setNewCustomer),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                            placeholder: "090-1234-5678"
+                          })
+                        ),
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "生年月日"),
+                          React.createElement('input', {
+                            type: "date",
+                            value: newCustomer.birthDate,
+                            onChange: (e) => setNewCustomer({...newCustomer, birthDate: e.target.value}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                          })
+                        )
+                      ),
+
+                      React.createElement('div', { className: "border-t pt-4" },
+                        React.createElement('h3', { className: "text-lg font-semibold mb-4" }, "お客様の特徴・希望"),
+                        
+                        React.createElement('div', { className: "space-y-4" },
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "アレルギー"),
+                            React.createElement('input', {
+                              type: "text",
+                              value: newCustomer.preferences.allergies,
+                              onChange: (e) => setNewCustomer({
+                                ...newCustomer, 
+                                preferences: {...newCustomer.preferences, allergies: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                              placeholder: "なし / 特定の成分名など"
+                            })
+                          ),
+
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "髪質"),
+                            React.createElement('select', {
+                              value: newCustomer.preferences.hairType,
+                              onChange: (e) => setNewCustomer({
+                                ...newCustomer, 
+                                preferences: {...newCustomer.preferences, hairType: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                            },
+                              React.createElement('option', { value: "" }, "選択してください"),
+                              hairTypes.map(type =>
+                                React.createElement('option', { key: type, value: type }, type)
+                              )
+                            )
+                          ),
+
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "特記事項"),
+                            React.createElement('textarea', {
+                              value: newCustomer.preferences.notes,
+                              onChange: (e) => setNewCustomer({
+                                ...newCustomer, 
+                                preferences: {...newCustomer.preferences, notes: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-20 touch-manipulation resize-none ios-input",
+                              placeholder: "肩こり、スタイリング希望、その他注意事項など..."
+                            })
+                          )
+                        )
+                      )
+                    ),
+
+                    React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mt-6" },
+                      React.createElement('button', {
+                        onClick: () => closeModal('addingCustomer'),
+                        className: "flex-1 py-4 text-base border border-gray-300 rounded-lg hover:bg-gray-50 touch-manipulation min-h-[48px]"
+                      }, "キャンセル"),
+                      React.createElement('button', {
+                        onClick: addNewCustomer,
+                        disabled: !newCustomer.name || !newCustomer.nameKana || !newCustomer.phone,
+                        className: "flex-1 bg-blue-600 text-white py-4 text-base rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 touch-manipulation min-h-[48px] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      },
+                        React.createElement(Save, { size: 20 }),
+                        "登録"
+                      )
+                    )
+                  )
+                ),
+
+                // お客様情報編集モーダル
+                isEditingCustomer && React.createElement('div', { 
+                  className: "fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50",
+                  onClick: (e) => e.target === e.currentTarget && closeModal('editingCustomer')
+                },
+                  React.createElement('div', { className: "bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl my-4 shadow-2xl modal-content" },
+                    React.createElement('div', { className: "flex items-center justify-between mb-6" },
+                      React.createElement('h2', { className: "text-lg md:text-xl font-bold" }, 
+                        `お客様情報編集 - ${formatNameWithSama(selectedCustomer.name)}`
+                      ),
+                      React.createElement('button', {
+                        onClick: () => closeModal('editingCustomer'),
+                        className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px]"
+                      }, React.createElement(X, { size: 24 }))
+                    ),
+
+                    React.createElement('div', { className: "space-y-4" },
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "お名前 *"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: selectedCustomer.name,
+                          onChange: (e) => setSelectedCustomer({...selectedCustomer, name: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "田中 花子"
+                        })
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "お名前（ひらがな） *"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: selectedCustomer.nameKana,
+                          onChange: (e) => setSelectedCustomer({...selectedCustomer, nameKana: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "たなか はなこ"
+                        })
+                      ),
+
+                      React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 gap-4" },
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "電話番号 *"),
+                          React.createElement('input', {
+                            type: "tel",
+                            value: selectedCustomer.phone,
+                            onChange: (e) => setSelectedCustomer({...selectedCustomer, phone: formatPhoneNumber(e.target.value)}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                            placeholder: "090-1234-5678"
+                          })
+                        ),
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "生年月日"),
+                          React.createElement('input', {
+                            type: "date",
+                            value: selectedCustomer.birthDate,
+                            onChange: (e) => setSelectedCustomer({...selectedCustomer, birthDate: e.target.value}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                          })
+                        )
+                      ),
+
+                      React.createElement('div', { className: "border-t pt-4" },
+                        React.createElement('h3', { className: "text-lg font-semibold mb-4" }, "お客様の特徴・希望"),
+                        
+                        React.createElement('div', { className: "space-y-4" },
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "アレルギー"),
+                            React.createElement('input', {
+                              type: "text",
+                              value: selectedCustomer.preferences.allergies,
+                              onChange: (e) => setSelectedCustomer({
+                                ...selectedCustomer, 
+                                preferences: {...selectedCustomer.preferences, allergies: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                              placeholder: "なし / 特定の成分名など"
+                            })
+                          ),
+
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "髪質"),
+                            React.createElement('select', {
+                              value: selectedCustomer.preferences.hairType,
+                              onChange: (e) => setSelectedCustomer({
+                                ...selectedCustomer, 
+                                preferences: {...selectedCustomer.preferences, hairType: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                            },
+                              React.createElement('option', { value: "" }, "選択してください"),
+                              hairTypes.map(type =>
+                                React.createElement('option', { key: type, value: type }, type)
+                              )
+                            )
+                          ),
+
+                          React.createElement('div', {},
+                            React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "特記事項"),
+                            React.createElement('textarea', {
+                              value: selectedCustomer.preferences.notes,
+                              onChange: (e) => setSelectedCustomer({
+                                ...selectedCustomer, 
+                                preferences: {...selectedCustomer.preferences, notes: e.target.value}
+                              }),
+                              className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-20 touch-manipulation resize-none ios-input",
+                              placeholder: "肩こり、スタイリング希望、その他注意事項など..."
+                            })
+                          )
+                        )
+                      )
+                    ),
+
+                    React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mt-6" },
+                      React.createElement('button', {
+                        onClick: () => closeModal('editingCustomer'),
+                        className: "flex-1 py-4 text-base border border-gray-300 rounded-lg hover:bg-gray-50 touch-manipulation min-h-[48px]"
+                      }, "キャンセル"),
+                      React.createElement('button', {
+                        onClick: updateCustomer,
+                        disabled: !selectedCustomer.name || !selectedCustomer.nameKana || !selectedCustomer.phone,
+                        className: "flex-1 bg-orange-600 text-white py-4 text-base rounded-lg hover:bg-orange-700 flex items-center justify-center gap-2 touch-manipulation min-h-[48px] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      },
+                        React.createElement(Save, { size: 20 }),
+                        "更新"
+                      )
+                    )
+                  )
+                ),
+
+                // 施術履歴編集モーダル
+                editingRecord && React.createElement('div', { 
+                  className: "fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50",
+                  onClick: (e) => e.target === e.currentTarget && closeModal('editingRecord')
+                },
+                  React.createElement('div', { className: "bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl my-4 shadow-2xl modal-content" },
+                    React.createElement('div', { className: "flex items-center justify-between mb-6" },
+                      React.createElement('h2', { className: "text-lg md:text-xl font-bold" }, 
+                        `施術記録編集 - ${formatNameWithSama(selectedCustomer.name)}`
+                      ),
+                      React.createElement('button', {
+                        onClick: () => closeModal('editingRecord'),
+                        className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px]"
+                      }, React.createElement(X, { size: 24 }))
+                    ),
+
+                    React.createElement('div', { className: "space-y-4" },
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術日"),
+                        React.createElement('input', {
+                          type: "date",
+                          value: editingRecord.date,
+                          onChange: (e) => setEditingRecord({...editingRecord, date: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                        })
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術内容"),
+                        React.createElement('select', {
+                          value: editingRecord.service,
+                          onChange: (e) => setEditingRecord({...editingRecord, service: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                        },
+                          React.createElement('option', { value: "" }, "選択してください"),
+                          services.map(service =>
+                            React.createElement('option', { key: service, value: service }, service)
+                          )
+                        )
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "スタイル"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: editingRecord.style,
+                          onChange: (e) => setEditingRecord({...editingRecord, style: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "ショートボブ、レイヤーカット等"
+                        })
+                      ),
+
+                      React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 gap-4" },
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術時間"),
+                          React.createElement('select', {
+                            value: editingRecord.duration,
+                            onChange: (e) => setEditingRecord({...editingRecord, duration: parseInt(e.target.value) || ''}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                          },
+                            React.createElement('option', { value: "" }, "選択してください"),
+                            timeOptions.map(option =>
+                              React.createElement('option', { key: option.value, value: option.value }, option.label)
+                            )
+                          )
+                        ),
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "料金（円）"),
+                          React.createElement('input', {
+                            type: "number",
+                            value: editingRecord.price,
+                            onChange: (e) => setEditingRecord({...editingRecord, price: parseInt(e.target.value) || ''}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                            placeholder: "8500"
+                          })
+                        )
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "使用薬品（1行に1つずつ）"),
+                        React.createElement('textarea', {
+                          value: Array.isArray(editingRecord.products) ? editingRecord.products.join('\n') : '',
+                          onChange: (e) => setEditingRecord({...editingRecord, products: e.target.value.split('\n')}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-24 touch-manipulation resize-none ios-input",
+                          placeholder: "ロレアル カラー剤\nトリートメント"
+                        })
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術メモ"),
+                        React.createElement('textarea', {
+                          value: editingRecord.notes,
+                          onChange: (e) => setEditingRecord({...editingRecord, notes: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-32 touch-manipulation resize-none ios-input",
+                          placeholder: "お客様の要望、施術内容の詳細等"
+                        })
+                      )
+                    ),
+
+                    React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mt-6" },
+                      React.createElement('button', {
+                        onClick: () => closeModal('editingRecord'),
+                        className: "flex-1 py-4 text-base border border-gray-300 rounded-lg hover:bg-gray-50 touch-manipulation min-h-[48px]"
+                      }, "キャンセル"),
+                      React.createElement('button', {
+                        onClick: updateRecord,
+                        disabled: !editingRecord.service || !editingRecord.price,
+                        className: "flex-1 bg-orange-600 text-white py-4 text-base rounded-lg hover:bg-orange-700 flex items-center justify-center gap-2 touch-manipulation min-h-[48px] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      },
+                        React.createElement(Save, { size: 20 }),
+                        "更新"
+                      )
+                    )
+                  )
+                ),
+
+                // 削除確認モーダル
+                showDeleteConfirm && React.createElement('div', { 
+                  className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50",
+                  onClick: (e) => e.target === e.currentTarget && closeModal('deleteConfirm')
+                },
+                  React.createElement('div', { className: "bg-white rounded-lg p-6 w-full max-w-md shadow-2xl" },
+                    React.createElement('div', { className: "flex items-center justify-between mb-4" },
+                      React.createElement('h3', { className: "text-lg font-bold text-red-600" }, "削除確認"),
+                      React.createElement('button', {
+                        onClick: () => closeModal('deleteConfirm'),
+                        className: "p-2 hover:bg-gray-100 rounded-lg touch-manipulation"
+                      }, React.createElement(X, { size: 20 }))
+                    ),
+                    
+                    React.createElement('div', { className: "mb-6" },
+                      React.createElement('p', { className: "text-gray-700 mb-2" }, 
+                        `${formatNameWithSama(selectedCustomer.name)}の情報を完全に削除しますか？`
+                      ),
+                      React.createElement('p', { className: "text-sm text-red-600" }, 
+                        "※ この操作は取り消せません。すべての施術履歴も削除されます。"
+                      )
+                    ),
+
+                    React.createElement('div', { className: "flex gap-4" },
+                      React.createElement('button', {
+                        onClick: () => closeModal('deleteConfirm'),
+                        className: "flex-1 py-3 text-base border border-gray-300 rounded-lg hover:bg-gray-50 touch-manipulation"
+                      }, "キャンセル"),
+                      React.createElement('button', {
+                        onClick: deleteCustomer,
+                        className: "flex-1 bg-red-600 text-white py-3 text-base rounded-lg hover:bg-red-700 flex items-center justify-center gap-2 touch-manipulation"
+                      },
+                        React.createElement(Trash2, { size: 18 }),
+                        "削除"
+                      )
+                    )
+                  )
+                )
+              )Record, service: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                        },
+                          React.createElement('option', { value: "" }, "選択してください"),
+                          services.map(service =>
+                            React.createElement('option', { key: service, value: service }, service)
+                          )
+                        )
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "スタイル"),
+                        React.createElement('input', {
+                          type: "text",
+                          value: newRecord.style,
+                          onChange: (e) => setNewRecord({...newRecord, style: e.target.value}),
+                          className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                          placeholder: "ショートボブ、レイヤーカット等"
+                        })
+                      ),
+
+                      React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 gap-4" },
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "施術時間"),
+                          React.createElement('select', {
+                            value: newRecord.duration,
+                            onChange: (e) => setNewRecord({...newRecord, duration: parseInt(e.target.value) || ''}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input"
+                          },
+                            React.createElement('option', { value: "" }, "選択してください"),
+                            timeOptions.map(option =>
+                              React.createElement('option', { key: option.value, value: option.value }, option.label)
+                            )
+                          )
+                        ),
+                        React.createElement('div', {},
+                          React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "料金（円）"),
+                          React.createElement('input', {
+                            type: "number",
+                            value: newRecord.price,
+                            onChange: (e) => setNewRecord({...newRecord, price: parseInt(e.target.value) || ''}),
+                            className: "w-full p-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 touch-manipulation min-h-[48px] ios-input",
+                            placeholder: "8500"
+                          })
+                        )
+                      ),
+
+                      React.createElement('div', {},
+                        React.createElement('label', { className: "block text-sm md:text-base font-medium mb-2" }, "使用薬品（1行<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -280,17 +776,40 @@
               .sort((a, b) => (a.nameKana || a.name).localeCompare(b.nameKana || b.name, 'ja-JP'));
           }, [customers, searchTerm]);
 
-          const handleSearchChange = useCallback((e) => {
+          // イベントハンドラー関数を明示的に定義
+          const handleSearchChange = (e) => {
+            console.log('Search changed:', e.target.value);
             setSearchTerm(e.target.value);
-          }, []);
+          };
 
-          const addNewRecord = useCallback(() => {
+          const handleAddNewCustomer = () => {
+            console.log('Add new customer clicked');
+            setIsAddingCustomer(true);
+          };
+
+          const handleAddNewRecord = () => {
+            console.log('Add new record clicked');
+            setIsEditing(true);
+          };
+
+          const handleEditCustomer = () => {
+            console.log('Edit customer clicked');
+            setIsEditingCustomer(true);
+          };
+
+          const handleDeleteCustomer = () => {
+            console.log('Delete customer clicked');
+            setShowDeleteConfirm(true);
+          };
+
+          const addNewRecord = () => {
+            console.log('Adding new record...');
             if (!selectedCustomer) return;
             
             const record = {
               ...newRecord,
               id: Date.now(),
-              products: newRecord.products.filter(p => p.trim())
+              products: Array.isArray(newRecord.products) ? newRecord.products.filter(p => p.trim()) : []
             };
             
             const updatedCustomers = customers.map(customer => 
@@ -316,9 +835,10 @@
               notes: ''
             });
             setIsEditing(false);
-          }, [selectedCustomer, newRecord, customers]);
+          };
 
-          const addNewCustomer = useCallback(() => {
+          const addNewCustomer = () => {
+            console.log('Adding new customer...');
             const customer = {
               ...newCustomer,
               id: Date.now(),
@@ -339,14 +859,15 @@
               }
             });
             setIsAddingCustomer(false);
-          }, [newCustomer]);
+          };
 
-          const updateRecord = useCallback(() => {
+          const updateRecord = () => {
+            console.log('Updating record...');
             if (!selectedCustomer || !editingRecord) return;
             
             const updatedRecord = {
               ...editingRecord,
-              products: editingRecord.products.filter(p => p.trim())
+              products: Array.isArray(editingRecord.products) ? editingRecord.products.filter(p => p.trim()) : []
             };
             
             const updatedCustomers = customers.map(customer => 
@@ -369,9 +890,10 @@
             }));
             
             setEditingRecord(null);
-          }, [selectedCustomer, editingRecord, customers]);
+          };
 
-          const updateCustomer = useCallback(() => {
+          const updateCustomer = () => {
+            console.log('Updating customer...');
             if (!selectedCustomer || !isEditingCustomer) return;
             
             const updatedCustomers = customers.map(customer => 
@@ -382,25 +904,58 @@
             
             setCustomers(updatedCustomers);
             setIsEditingCustomer(false);
-          }, [selectedCustomer, customers, isEditingCustomer]);
+          };
 
-          const deleteCustomer = useCallback(() => {
+          const deleteCustomer = () => {
+            console.log('Deleting customer...');
             if (!selectedCustomer) return;
             
             const updatedCustomers = customers.filter(customer => customer.id !== selectedCustomer.id);
             setCustomers(updatedCustomers);
             setSelectedCustomer(null);
             setShowDeleteConfirm(false);
-          }, [selectedCustomer, customers]);
+          };
 
-          const startEditRecord = useCallback((record) => {
+          const startEditRecord = (record) => {
+            console.log('Edit record clicked:', record);
             setEditingRecord({...record});
-          }, []);
+          };
 
-          const handlePhoneChange = useCallback((value, setter) => {
+          const handlePhoneChange = (value, setter) => {
             const formatted = formatPhoneNumber(value);
             setter(prev => ({ ...prev, phone: formatted }));
-          }, []);
+          };
+
+          const selectCustomer = (customer) => {
+            console.log('Customer selected:', customer);
+            setSelectedCustomer(customer);
+          };
+
+          const goBack = () => {
+            console.log('Going back to customer list');
+            setSelectedCustomer(null);
+          };
+
+          const closeModal = (modalType) => {
+            console.log('Closing modal:', modalType);
+            switch(modalType) {
+              case 'editing':
+                setIsEditing(false);
+                break;
+              case 'addingCustomer':
+                setIsAddingCustomer(false);
+                break;
+              case 'editingRecord':
+                setEditingRecord(null);
+                break;
+              case 'editingCustomer':
+                setIsEditingCustomer(false);
+                break;
+              case 'deleteConfirm':
+                setShowDeleteConfirm(false);
+                break;
+            }
+          };
 
           // お客様詳細画面
           if (selectedCustomer) {
@@ -418,7 +973,7 @@
                     React.createElement('div', { className: "flex items-center justify-between mb-4" },
                       React.createElement('div', { className: "flex items-center gap-3 md:gap-4" },
                         React.createElement('button', {
-                          onClick: () => setSelectedCustomer(null),
+                          onClick: goBack,
                           className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px]"
                         }, React.createElement(ChevronLeft, { size: 20 })),
                         React.createElement('div', {},
@@ -432,15 +987,15 @@
                       ),
                       React.createElement('div', { className: "flex items-center gap-2" },
                         React.createElement('button', {
-                          onClick: () => setIsEditingCustomer(true),
+                          onClick: handleEditCustomer,
                           className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px] text-gray-600 hover:text-blue-600"
                         }, React.createElement(Edit, { size: 20 })),
                         React.createElement('button', {
-                          onClick: () => setShowDeleteConfirm(true),
+                          onClick: handleDeleteCustomer,
                           className: "p-3 hover:bg-gray-100 rounded-lg touch-manipulation min-h-[48px] min-w-[48px] text-gray-600 hover:text-red-600"
                         }, React.createElement(Trash2, { size: 20 })),
                         React.createElement('button', {
-                          onClick: () => setIsEditing(true),
+                          onClick: handleAddNewRecord,
                           className: "flex items-center gap-2 bg-green-600 text-white px-3 md:px-4 py-3 rounded-lg hover:bg-green-700 touch-manipulation text-sm md:text-base min-h-[48px]"
                         },
                           React.createElement(Plus, { size: 20 }),
@@ -600,7 +1155,7 @@
                       React.createElement('div', {
                         key: customer.id,
                         className: "p-4 md:p-6 border-b border-gray-100 hover:bg-gray-50 cursor-pointer touch-manipulation active:bg-gray-100",
-                        onClick: () => setSelectedCustomer(customer)
+                        onClick: () => selectCustomer(customer)
                       },
                         React.createElement('div', { className: "flex items-center justify-between" },
                           React.createElement('div', { className: "flex items-center gap-4" },
@@ -635,6 +1190,24 @@
             )
           );
         };
+
+        // アプリを起動
+        try {
+          console.log('Creating React root...');
+          const root = ReactDOM.createRoot(document.getElementById('root'));
+          console.log('Rendering app...');
+          root.render(React.createElement(BeautySalonApp));
+          console.log('App rendered successfully!');
+        } catch (error) {
+          console.error('Error rendering app:', error);
+          document.getElementById('root').innerHTML = `
+            <div style="padding: 20px; text-align: center; color: red;">
+              <h2>アプリの読み込みに失敗しました</h2>
+              <p>ブラウザを更新してもう一度お試しください。</p>
+              <p>エラー: ${error.message}</p>
+            </div>
+          `;
+        }
 
         // アプリを起動
         try {
